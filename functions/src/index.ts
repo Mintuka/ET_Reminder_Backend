@@ -1,10 +1,14 @@
 "use strict";
-import { sendMessageToClient } from "./sendMessage";
+import { messageTemplate } from "./utils/dateTimeConverter";
+import { sendMessageToClient } from "./utils/sendMessage";
 
 const functions = require('firebase-functions');
 
 exports.api = functions.https.onCall(async (data:any, context:any) => {
-    const response = await sendMessageToClient(data)
+    const { time, date, phone } = data
+    const { message } = messageTemplate({time, date})
+    const customer = { phoneNumber: phone, message: message }
+    const response = await sendMessageToClient(customer)
     return response
 })
 

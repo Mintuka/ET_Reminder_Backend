@@ -15,7 +15,6 @@ const authAxios = axios.create({
 export async function sendMessageToClient(data:any) {
 
     const { phoneNumber, message } = data;
-    console.log('phoneNumber',phoneNumber)
     try {
       const response = await authAxios.get(`send?from=${identifierId}&sender=${senderName}&to=${phoneNumber}&message=${message}`)
   
