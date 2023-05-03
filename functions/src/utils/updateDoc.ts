@@ -1,5 +1,4 @@
 const admin = require('firebase-admin');
-admin.initializeApp();
 
 export async function updateDoc (companyId:string, customerId:string, data:any) {
 
