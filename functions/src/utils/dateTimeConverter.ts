@@ -19,20 +19,18 @@ export function dateTimeConverter (data:any) {
 }
 
 export function messageTemplate (data:any) {
+    const { appointment } = data
     const { time, date } = dateTimeConverter(data)
     const [gregorianDate, amharicDate] = date.split('.')
     const [gregorianTime, amharicTime] = time.split('.')
 
-    return {  
-            message:`Dear Customer, Your schedule at our clinic will be on ${gregorianDate} at ${gregorianTime}.\nPlease arrive on time.\n\nውድ ደንበኛችን የህክምና የቀጠሮ ቀንዎ ${amharicDate} ${amharicTime} ሰዓት መሆኑን እያሳወቅን በሰዓቱ እንዲገኙልን እንጠይቃለን።`
-           }
-}
+    if ( appointment === 'before' )
+        return { message:`Dear Customer, Your schedule at our clinic will be on ${gregorianDate} at ${gregorianTime}.\nPlease arrive on time.\nውድ ደንበኛችን የህክምና የቀጠሮ ቀንዎ ${amharicDate} ${amharicTime} ሰዓት መሆኑን እያሳወቅን በሰዓቱ እንዲገኙልን እንጠይቃለን።` 
+                }
+    else if ( appointment === 'after' ) {
+        return { message:`Dear customer, we hope you had a great service at our clinic. Your next schedule will be on ${gregorianDate} at ${gregorianTime}.\n[PLEASE ARRIVE ON TIME.]\nውድ ደንበኛችን በአገልግሎታችን  እንደተደሰቱ እናምናለን። ቀጣዩ የህክምና የቀጠሮ ቀንዎ ${amharicDate} በ ${amharicTime} መሆኑን እያሳወቅን በሰዓቱ እንዲገኙልን እንጠይቃለን። ` 
+                }
+    }
 
-export function run () {
-    const data = {time:'01:00 PM', date:'5/2/2023', phone:'910935221'}
-    const { time, date } = data
-    const { message } = messageTemplate({time, date})
-    console.log(message)
+    return { message:null }
 }
-
-run()

@@ -5,10 +5,12 @@ import { sendMessageToClient } from "./utils/sendMessage";
 const functions = require('firebase-functions');
 
 exports.api = functions.https.onCall(async (data:any, context:any) => {
-    const { time, date, phone } = data
-    const { message } = messageTemplate({time, date})
+    const { time, date, phone, appointment } = data
+    const { message } = messageTemplate({time, date, appointment})
     const customer = { phoneNumber: phone, message: message }
-    const response = await sendMessageToClient(customer)
+    if ( message === null )
+      return { message: 'Failed to send message' }
+    const response = message && await sendMessageToClient(customer)
     return response
 })
 
