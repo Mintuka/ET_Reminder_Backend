@@ -3,6 +3,7 @@ const admin = require('firebase-admin');
 export async function getStatistics (companyId:string) {
     let messages:any = [];
     let totalMessages:number = 0;
+    let index = 0
     let dataCountByMonth: Map<string, { count: number; order: number }> = new Map();
     
     await admin.firestore().collection("ET_Reminders/" + companyId + "/Messages")
@@ -11,7 +12,7 @@ export async function getStatistics (companyId:string) {
     .then((response:any) => {
         totalMessages = response.docs.length
 
-        response.docs.forEach((doc:any, index:number) => {
+        response.docs.forEach((doc:any) => {
                   
             const data = doc.data();
             const creationDate = data.time.toDate();
@@ -27,6 +28,7 @@ export async function getStatistics (companyId:string) {
               monthData.count++;
             } else {
               dataCountByMonth.set(key, { count: 1, order: index + 1 });
+              index++
             }
         
           })
@@ -37,8 +39,9 @@ export async function getStatistics (companyId:string) {
             messages.push(monthlyData)
 
           });
-
+          console.log('data-not-sorted',messages)
           messages.sort((a:any, b:any) => a.id > b.id);
+          console.log('data-sorted',messages)
     });
 
     return { messages, totalMessages }
