@@ -21,11 +21,11 @@ export async function sendStatus(data:any) {
     // const { phoneNumber, message } = data;
     
     try {
-      const response = await authAxios.get(`send?from=${identifierId}&sender=${senderName}&to=${phoneNumber}&message=${message}&callback${callback}`)
+      const response = await authAxios.get(`send?from=${identifierId}&sender=${senderName}&to=${phoneNumber}&message=${message}&callback=${callback}`)
       console.log('response',response)
-      const stat = await createMessage(companyId, { phone:phoneNumber, time: new Date(), message })
-      console.log('stat',stat)
-      return { message: 'sent successfully'};
+      const { acknowledge } = response
+      await createMessage(companyId, { phone:phoneNumber, time: new Date(), message })
+      return { acknowledge }
     } catch (error) {
       if (error instanceof Error) {
         console.log("error message: ", error.message);

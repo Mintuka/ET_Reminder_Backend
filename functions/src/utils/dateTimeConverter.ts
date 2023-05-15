@@ -25,10 +25,10 @@ export function messageTemplate (data:any) {
     const [gregorianTime, amharicTime] = time.split('.')
 
     if ( appointment === 'before' )
-        return { message:`Dear Customer, Your schedule at our clinic will be on ${gregorianDate} at ${gregorianTime}.\nPlease arrive on time.\nውድ ደንበኛችን የህክምና የቀጠሮ ቀንዎ ${amharicDate} ${amharicTime} ሰዓት መሆኑን እያሳወቅን በሰዓቱ እንዲገኙልን እንጠይቃለን።` 
+        return { message:`Dear Customer, Your schedule at our clinic will be on ${gregorianDate} at ${gregorianTime}.\r\nPlease arrive on time.\r\nውድ ደንበኛችን የህክምና የቀጠሮ ቀንዎ ${amharicDate} ${amharicTime} ሰዓት መሆኑን እያሳወቅን በሰዓቱ እንዲገኙልን እንጠይቃለን።` 
                 }
     else if ( appointment === 'after' ) {
-        return { message:`Dear customer, we hope you had a great service at our clinic. Your next schedule will be on ${gregorianDate} at ${gregorianTime}.\n[PLEASE ARRIVE ON TIME.]\nውድ ደንበኛችን በአገልግሎታችን  እንደተደሰቱ እናምናለን። ቀጣዩ የህክምና የቀጠሮ ቀንዎ ${amharicDate} ${amharicTime} መሆኑን እያሳወቅን በሰዓቱ እንዲገኙልን እንጠይቃለን። ` 
+        return { message:`Dear customer, we hope you had a great service at our clinic. Your next schedule will be on ${gregorianDate} at ${gregorianTime}.\r\n[PLEASE ARRIVE ON TIME.]\r\nውድ ደንበኛችን በአገልግሎታችን  እንደተደሰቱ እናምናለን። ቀጣዩ የህክምና የቀጠሮ ቀንዎ ${amharicDate} ${amharicTime} መሆኑን እያሳወቅን በሰዓቱ እንዲገኙልን እንጠይቃለን። ` 
                 }
     }
 

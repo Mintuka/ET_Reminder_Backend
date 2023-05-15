@@ -1,4 +1,5 @@
 "use strict";
+import { addCustomer } from "./utils/addCustomer";
 import { messageTemplate } from "./utils/dateTimeConverter";
 import { getMessages } from "./utils/getMessages";
 import { getStatistics } from "./utils/getStatistics";
@@ -30,7 +31,7 @@ exports.setAppointments = functions.https.onCall(async (data:any, context:any) =
   return 
 })
 
-exports.notify = functions.https.onCall(async (data:any, context:any) => {
+exports.sendMessage = functions.https.onCall(async (data:any, context:any) => {
   const { phoneNumber, message, companyId } = data
   if ( message === null )
     return { message: 'Failed to send message' }
@@ -38,12 +39,12 @@ exports.notify = functions.https.onCall(async (data:any, context:any) => {
   return response
 })
 
-exports.messages = functions.https.onCall(async (data:any, context:any) => {
+exports.getMessages = functions.https.onCall(async (data:any, context:any) => {
   const { companyId } = data
   return await getMessages(companyId)
 })
 
-exports.statistics = functions.https.onCall(async (data:any, context:any) => {
+exports.getStatistics = functions.https.onCall(async (data:any, context:any) => {
   const { companyId } = data
   return await getStatistics(companyId)
 })
@@ -51,6 +52,11 @@ exports.statistics = functions.https.onCall(async (data:any, context:any) => {
 exports.getStatus = functions.https.onRequest(async (req:any, res:any) => {
 
   return res
+})
+
+exports.addCustomer = functions.https.onCall(async (data:any, context:any) => {
+  const { companyId, customer } = data
+  return await addCustomer( companyId, customer )
 })
 
 exports.createUser = functions.firestore
@@ -61,14 +67,14 @@ exports.createUser = functions.firestore
       const companyId = context.params.companyId
       let message = ''
       if ( companyId === 'B2MWgnZZGwOgCj4ux1H0' && isSend ) {
-        message = 'Dear esteemed customer, your booking is confirmed.Thank you for choosing our clinic. \n\n\n\n ዉድ ደንበኛችን የአገልግሎት ምዝገባዎ ተጠናቋል። ክሊኒካችንን  ስለመረጡ እናመሰግናለን።'
+        message = 'Dear esteemed customer, your booking is confirmed.Thank you for choosing our clinic. \r\n ዉድ ደንበኛችን የአገልግሎት ምዝገባዎ ተጠናቋል። ክሊኒካችንን  ስለመረጡ እናመሰግናለን።'
         newValue = { phoneNumber:phone, message, companyId }
         const response = await sendMessageToClient(newValue)
         return response
       }
 
       if ( companyId === 'Ml2dAHMamU1mh21YIFqC' && isSend ) {
-        message = 'Dear esteemed customer, your booking is confirmed.Thank you for choosing our clinic. \n\n\n\n ዉድ ደንበኛችን የአገልግሎት ምዝገባዎ ተጠናቋል። ክሊኒካችንን  ስለመረጡ እናመሰግናለን።'
+        message = 'Dear esteemed customer, your booking is confirmed.Thank you for choosing our clinic. \r\n ዉድ ደንበኛችን የአገልግሎት ምዝገባዎ ተጠናቋል። ክሊኒካችንን  ስለመረጡ እናመሰግናለን።'
         newValue = { phoneNumber:phone, message, companyId }
         const response = await sendMessageToClient(newValue)
         return response
