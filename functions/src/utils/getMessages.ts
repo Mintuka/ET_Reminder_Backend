@@ -4,7 +4,7 @@ const admin = require('firebase-admin');
 
 export async function getMessages (companyId:string) {
     let messages:any = []
-    console.log('get-msg-cid',companyId)
+    
     await admin.firestore().collection("ET_Reminders/" + companyId + "/Messages")
     .orderBy("time","desc")
     .limit(500)

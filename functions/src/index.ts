@@ -1,6 +1,7 @@
 "use strict";
 import { addCustomer } from "./utils/addCustomer";
 import { messageTemplate } from "./utils/dateTimeConverter";
+import { getCustomersData } from "./utils/getCustomersData";
 import { getMessages } from "./utils/getMessages";
 import { getStatistics } from "./utils/getStatistics";
 import { sendMessageToClient } from "./utils/sendMessage";
@@ -51,12 +52,30 @@ exports.getStatistics = functions.https.onCall(async (data:any, context:any) => 
 
 exports.getStatus = functions.https.onRequest(async (req:any, res:any) => {
 
+  const uid = 'h1kWHWdmV9VL3wyO3ydYRFWM7D73';
+  const companyId = 'B2MWgnZZGwOgCj4ux1H0';
+  const idPrefix = 'SK-CL-10'
+  
+  admin.auth().setCustomUserClaims(uid, { companyId, idPrefix })
+    .then(() => {
+      console.log('Custom claim set successfully');
+    })
+    .catch((error:any) => {
+      console.error('Error setting custom claim:', error);
+    });
   return res
 })
 
 exports.addCustomer = functions.https.onCall(async (data:any, context:any) => {
   const { companyId, customer } = data
   return await addCustomer( companyId, customer )
+})
+
+exports.getCustomersData = functions.https.onCall(async (data:any, context:any) => {
+  const { companyId } = data
+  const res = await getCustomersData( companyId )
+  console.log('res',res)
+  return res
 })
 
 exports.createUser = functions.firestore
